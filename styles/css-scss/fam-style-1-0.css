@@ -11855,5 +11855,12 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.bg-1 {
+  background-image: url(../../pictures/examples/family-6398107_1920.jpg);
+  background-color: #fff;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
 
 /*# sourceMappingURL=fam-style-1-0.css.map */

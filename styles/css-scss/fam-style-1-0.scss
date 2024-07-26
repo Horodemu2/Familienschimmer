@@ -1,3 +1,11 @@
 @import "scss-variables-1-0.scss";
 
 // Bilder //
+
+.bg-1 {
+  background-image: url(../../pictures/examples/family-6398107_1920.jpg);
+  background-color: $white;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}

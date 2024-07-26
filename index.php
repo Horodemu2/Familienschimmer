@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 <!DOCTYPE html>
 <html lang="de">
 <?php include 'header/header-1-0.php'; ?>
-<body>
+<body class="bg-1">
   <?php
   include 'navbar/navbar-1-0.php';
   include 'body/index/index-body-1-0.php';
