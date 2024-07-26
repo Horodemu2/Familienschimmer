@@ -17,9 +17,9 @@
   </div>
   <div class="container-fluid position-absolute top-50 start-0">
     <div class="row">
-      <div id="login-card" class="offset-lg-9 col-lg-3">
+      <div id="login-card" class="offset-lg-8 col-lg-3">
         <?php include 'login/login-card.php'; ?>
       </div>
+    </div>
   </div>
-</div>
 </main>

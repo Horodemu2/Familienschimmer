@@ -11863,4 +11863,8 @@ textarea.form-control-lg {
   background-attachment: fixed;
 }
 
+.error-msg {
+  background-color: rgba(220, 53, 69, 0.6);
+}
+
 /*# sourceMappingURL=fam-style-1-0.css.map */

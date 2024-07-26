@@ -1,0 +1,20 @@
+# RewriteEngine On
+
+# Remove index.php from the URL
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^(.*)$ /index.php/$1 [L]
+
+ErrorDocument 404 /error404/index.php
+RewriteEngine On
+
+# Umleitung aller Pfade auf die 404-Fehlerseite
+RewriteRule ^navbar(/.*)?$ - [L,R=404]
+RewriteRule ^logs(/.*)?$ - [L,R=404]
+RewriteRule ^sub(/.*)?$ - [L,R=404]
+RewriteRule ^texte(/.*)?$ - [L,R=404]
+RewriteRule ^header(/.*)?$ - [L,R=404]
+RewriteRule ^footer(/.*)?$ - [L,R=404]
+RewriteRule ^Body(/.*)?$ - [L,R=404]
+RewriteRule ^apps(/.*)?$ - [L,R=404]
+RewriteRule ^shop(/.*)?$ - [L,R=404]
