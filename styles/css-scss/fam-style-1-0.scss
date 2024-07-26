@@ -9,6 +9,11 @@
   background-size: cover;
   background-attachment: fixed;
 }
+
 .error-msg {
   background-color: $errorred;
 }
+
+.card {
+  background-color: $logincardbg;
+  }

@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col">
         <h1 class="">
-          Willkommen auf Familienschimmer.de
+          Wir sind <i class="fa-solid fa-g"></i>ürke <i class="fa-solid fa-k"></i>ienzler <i class="fa-solid fa-s"></i>chimmer</a>
         </h1>
       </div>
     </div>

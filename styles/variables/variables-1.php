@@ -1,5 +1,5 @@
 <?php
-$urlad = 'https://www.familienschimmer.de';
+$urlad = 'http://localhost/familienschimmer';
 $urlh = 'https://www.familienschimmer.de/';
 $index = $urlh . 'index.php';
 $legal = 'legal/';
