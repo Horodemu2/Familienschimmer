@@ -1,3 +1,7 @@
+<?php
+if(!isset($_SESSION['attack']) && !isset($_SESSION['user_id'])):
+?>
+
 <div class="card border-primary" id="logincard">
   <div class="card-header">
     <h5 class="card-title"><i class="fa-solid fa-l"></i>ogin</h5>
@@ -29,8 +33,37 @@
           <div class="text-center ">
             <button class="btn btn-success">abschicken</button>
           </div>
+          <h2 class="text-alert">
+            <?php echo isset($_SESSION['error_msg']) ? $_SESSION['error_msg'] : ""; ?>
+          </h2>
         </div>
       </form>
-  </div>
+      <?php
+      elseif (isset($_SESSION['attack'])):
+       ?>
+       <div class="my-2">
+         <p class="h2 text-danger">
+           <?php
+           echo $_SESSION['error_msg'];
+            ?>
+          </p>
+          <p class="text-center">
+            <a class="btn btn-outline-danger" href="/" rel="zurück zur Startseite">Startseite<i class="fa fa-solid fa-home"></i></a></p>
+        </div>
+        <?php
+        elseif(isset($_SESSION['user_id']) && isset($_SESSION['username'])):
+      ?>
+      <div class="my-2">
+        <p class="h2 text-success">
+          Sie sind bereits eingeloggt!
+        </p>
+        <p class="text-center">
+          <a href="/backend/" rel="hier geht es zum Log-In-Bereich" class="btn btn-outline-success">Zum Backend<i class="fa-solid fa-key"></i></a>
+        </p>
+      </div>
+      <?php
+      endif
+      ?>
+    </div>
 
 </div>

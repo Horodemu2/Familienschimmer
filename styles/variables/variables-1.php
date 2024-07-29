@@ -24,6 +24,6 @@ $footer = '/homepages/10/d980753287/htdocs/footer/foot-java-2-0.php';
 $bootstrapsty = '/styles/bootstrap-5.3.2/dist/css/bootstrap.min.css';
 $bootstrapjav = '/styles/bootstrap-5.3.2/dist/js/bootsrap.bundle.js';
 $fontawesomesty = '/styles/fontawesome-free-6.4.2-web/css/fontawesome.min.css';
-$styles = 'http://localhost/familienschimmer/styles/css-scss/fam-style-1-0.css';
-$stylesmin = '/styles/Css/styles-2-1.min.css';
+$styles = '/styles/css-scss/fam-style-1-0.css';
+$stylesmin = '/styles/css-scss/styles-2-1.min.css';
  ?>

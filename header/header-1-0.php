@@ -56,13 +56,6 @@ $metatitle1 = "lorem ipsum";
   <script src="/styles/js/scroll-element-1-0.js" type="text/javascript"></script>
   <script src="https://kit.fontawesome.com/2cb54e4246.js" crossorigin="anonymous"></script>
 
-  <!-- Google tag (gtag.js) -->
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<meta name="google-signin-client_id" content="790757325350-768m5bci13a530te6lgeni9ceovmtag4.apps.googleusercontent.com">
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-<script src="https://cdn.rawgit.com/speakeasyjs/speakeasy/3.0.3/dist/speakeasy.min.js"></script>
   <!--?php
   if ((isset($_SESSION['marketingCookies']) && $_SESSION['marketingCookies'] === 1) || (isset($_SESSION['AllCookies']) && $_SESSION['AllCookies'] === 1)): ?>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4TQHDPC4NL"></script>
