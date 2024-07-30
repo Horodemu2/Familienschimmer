@@ -29,7 +29,8 @@ if(!isset($_SESSION['attack']) && !isset($_SESSION['user_id'])):
             <input class="form-control" id="passwd" type="password" placeholder="your password ?!#">
           </div>
         </div>
-        <div class="row mb-1 mt-1">
+          <input type="hidden" name="login_token" value="<?php echo $_SESSION['login_token']; ?>">
+        <div class="row my-1">
           <div class="text-center ">
             <button class="btn btn-success">abschicken</button>
           </div>

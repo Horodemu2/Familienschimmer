@@ -8,9 +8,7 @@ include '/kunden/homepages/33/d1016026951/htdocs/apps/config/config.php';
   <body class="bg-1">
     <?php
     include '/kunden/homepages/33/d1016026951/htdocs/navbar/navbar-1-0.php';
-    if(!isset($_SESSION['user_id'])) {
-      include '/kunden/homepages/33/d1016026951/htdocs/body/index/index-body-1-0.php';
-    };
+    include '/kunden/homepages/33/d1016026951/htdocs/registrieren/body/register-body.php';
     include '/kunden/homepages/33/d1016026951/htdocs/navbar/navbar-bottom.php';
     ?>
 
@@ -20,4 +18,4 @@ include '/kunden/homepages/33/d1016026951/htdocs/apps/config/config.php';
       include '/kunden/homepages/33/d1016026951/htdocs/footer/footer-1-0.php';
      ?>
    </footer>
-</html>
+  </html>
