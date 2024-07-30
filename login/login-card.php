@@ -8,8 +8,12 @@ if(!isset($_SESSION['attack']) && !isset($_SESSION['user_id'])):
   </div>
   <div class="card-body">
     <h6 class="card-subtitle mb-2 text-body-secondary">log yourself in</h6>
+    <?php 
+    if(isset($_SESSION['message'])):
+     ?>
+     <h6 class="card-subtitle mb-2 text-body-secondary"><?php echo $_SESSION['message']; ?></h6>
       <form>
-        <div class="row mt-1 mb-1">
+        <div class="row my-1">
           <div class="col-auto">
             <label class="form-label" for="email">
               <i class="fa-solid fa-at"></i>

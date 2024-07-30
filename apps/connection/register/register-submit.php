@@ -33,6 +33,10 @@ if (empty($password)) {
     $errors[] = "Bitte das Passwort eingeben.";
 }
 
+if (empty($password_confirm)) {
+    $errors[] = "Bitte das Passwort wiederholt eingeben.";
+}
+
 if ($password !== $password_confirm) {
     $errors[] = "Die Passwörter stimmen nicht überein.";
 }
@@ -51,19 +55,31 @@ if (!empty($errors)) {
 
 // Passwort verschlüsseln
 $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+$confirmation_code = bin2hex(random_bytes(32));
 
 // Benutzer in die Datenbank einfügen
-$stmt = $mysqli->prepare("INSERT INTO users (surname, prename, email, password, is_admin) VALUES (?, ?, ?, ?, 0)");
-$stmt->bind_param("ssss", $surname, $prename, $email, $hashed_password);
+$stmt = $mysqli->prepare("INSERT INTO users (surname, prename, email, password, is_admin, confirmation_code) VALUES (?, ?, ?, ?, 0, ?)");
+$stmt->bind_param("sssss", $surname, $prename, $email, $hashed_password, $confirmation_code);
+
 
 if ($stmt->execute()) {
-    $_SESSION['message'] = "Registrierung erfolgreich. Sie können sich jetzt einloggen.";
-    header("Location: /");
-    exit();
+    $confirm_url = "https://guerschi.family/registrieren/confirm.php?code=" . urlencode($confirmation_code);
+
+    $to = $email;
+    $subject = "Bitte bestätigen Sie Ihre E-Mail-Adresse";
+    $message = "Hallo $prename,\n\nBitte klicken Sie auf den folgenden Link, um Ihre E-Mail-Adresse zu bestätigen:\n\n$confirm_url\n\nVielen Dank!";
+    $headers = "From: no-reply@guerschi.family\r\n";
+
+    if (mail($to, $subject, $message, $headers)) {
+        $_SESSION['message'] = "Registrierung erfolgreich. Bitte überprüfen Sie Ihre E-Mail, um Ihre Adresse zu bestätigen.";
+        header("Location: /");
+    } else {
+        $_SESSION['error_msg'] = "Fehler beim Versenden der Bestätigungs-E-Mail.";
+        header("Location: /registrieren/");
+    }
 } else {
     $_SESSION['error_msg'] = "Fehler bei der Registrierung: " . $stmt->error;
     header("Location: /registrieren/");
-    exit();
 }
 
 // Statement und Verbindung schließen
