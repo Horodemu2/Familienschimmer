@@ -27,7 +27,7 @@ $metatitle1 = "lorem ipsum";
   <meta property="twitter:domain" content="<?php echo $urlh; ?>">
   <meta name="twitter:title" content="<?php echo $metatitle1; ?>">
   <meta name="twitter:description" content="<?php echo $metadescription; ?> ">
-  <meta name="twitter:image" content="<?php echo $urlad . $logo_jpg; ?>">
+  <meta name="twitter:image" content="<?php echo $urlad . $logo_jpg1; ?>">
 
 
   <!-- the preload

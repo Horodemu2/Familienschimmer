@@ -1,5 +1,3 @@
-
-
 <div class="card border-warning" id="registercard">
   <div class="card-header">
     <h5 class="card-title"><i class="fa-solid fa-r"></i>egister</h5>
@@ -22,7 +20,7 @@
     unset($_SESSION['error_msg']);
     endif;
      ?>
-    <form action="/apps/connection/register/register-submit.php" method="post">
+    <form action="submit/register-submit.php" method="post">
       <div class="row my-1">
         <div class="col-3">
           <label class="form-label" for="email">Email Adresse:</label>
@@ -57,7 +55,7 @@
       </div>
       <div class="row my-1">
         <div class="col-3">
-          <label class="form-label" for="password">P455W0RT Bestätigung</label>
+          <label class="form-label" for="password_confirm">P455W0RT Bestätigung</label>
         </div>
         <div class="col-8">
           <input class="form-control" id="password_confirm" type="password" placeholder="2x password">

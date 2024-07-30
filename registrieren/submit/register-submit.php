@@ -1,5 +1,16 @@
 <?php
-include '/kunden/homepages/33/d1016026951/htdocs/apps/config/config.php';
+
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+include '/kunden/homepages/33/d1016026951/htdocs/apps/connection/login/login-env.php';
+
+$dbhost = getenv('DB_HOST');
+$dbuser = getenv('DB_USERNAME');
+$dbpasswd = getenv('DB_PASSWORD');
+$dbname = getenv('DB_NAME');
 
 $mysqli = new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
 if ($mysqli->connect_error) {
@@ -9,8 +20,8 @@ if ($mysqli->connect_error) {
 }
 
 $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
-$surname = filter_input(INPUT_POST, 'surname', FILTER_SANITIZE_STRING);
-$prename = filter_input(INPUT_POST, 'prename', FILTER_SANITIZE_STRING);
+$surname = filter_input(INPUT_POST, 'surname', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$prename = filter_input(INPUT_POST, 'prename', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $password = $_POST['password'];
 $password_confirm = $_POST['password_confirm'];
 $login_token = $_POST['login_token'];
