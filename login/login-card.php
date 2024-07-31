@@ -8,10 +8,10 @@ if(!isset($_SESSION['attack']) && !isset($_SESSION['user_id'])):
   </div>
   <div class="card-body">
     <h6 class="card-subtitle mb-2 text-body-secondary">log yourself in</h6>
-    <?php 
+    <?php
     if(isset($_SESSION['message'])):
      ?>
-     <h6 class="card-subtitle mb-2 text-body-secondary"><?php echo $_SESSION['message']; ?></h6>
+     <h6 class="card-subtitle mb-2 text-body-secondary"><?php echo isset($_SESSION['message']) ? $_SESSION['message'] : "";; ?></h6>
       <form>
         <div class="row my-1">
           <div class="col-auto">
@@ -67,8 +67,9 @@ if(!isset($_SESSION['attack']) && !isset($_SESSION['user_id'])):
         </p>
       </div>
       <?php
-      endif
+    endif;
       ?>
     </div>
 
 </div>
+<?php endif; ?>

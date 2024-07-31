@@ -1,77 +1,105 @@
 <?php
-
+session_start();
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include '/kunden/homepages/33/d1016026951/htdocs/apps/connection/login/login-env.php';
+// Redirects
+$forward = '<script type="text/javascript">window.location.href = "/registrieren/";</script>';
+$forwardsuc = '<script type="text/javascript">window.location.href = "/";</script>';
 
+// DB Connection
 $dbhost = getenv('DB_HOST');
 $dbuser = getenv('DB_USERNAME');
 $dbpasswd = getenv('DB_PASSWORD');
 $dbname = getenv('DB_NAME');
+$dbtable = getenv('USER_TABLE');
 
 $mysqli = new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
 if ($mysqli->connect_error) {
     $errormsg = 'Verbindung fehlgeschlagen: ' . $mysqli->connect_error;
     $_SESSION['error_msg'] = $errormsg;
+    echo $forward;
     die();
 }
 
-$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
-$surname = filter_input(INPUT_POST, 'surname', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-$prename = filter_input(INPUT_POST, 'prename', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-$password = $_POST['password'];
-$password_confirm = $_POST['password_confirm'];
-$login_token = $_POST['login_token'];
+// Get POST data
 
-$errors = [];
+$email = isset($_POST['email']) ? $_POST['email'] : null;
+$surname = isset($_POST['surname']) ? $_POST['surname'] : null;
+$prename = isset($_POST['prename']) ? $_POST['prename'] : null;
+$password = isset($_POST['password']) ? $_POST['password'] : null;
+$password_confirm = isset($_POST['password_confirm']) ? $_POST['password_confirm'] : null;
+$login_token = isset($_POST['login_token']) ? $_POST['login_token'] : null;
 
+// Check if email already exists
+if ($email) {
+    $stmt = $mysqli->prepare("SELECT nr FROM $dbtable WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $_SESSION['error_msg'] = "Diese E-Mail-Adresse wird bereits verwendet.";
+        $stmt->close();
+        echo $forward;
+        exit();
+    }
+    $stmt->close();
+}
+
+// Validation
 if (!$email) {
-    $errors[] = "Bitte eine gültige Email-Adresse eingeben.";
+    $_SESSION['error_msg'] = "Bitte eine gültige Email-Adresse eingeben.";
+    echo $forward;
+    exit();
 }
 
 if (empty($surname)) {
-    $errors[] = "Bitte den Nachnamen eingeben.";
+    $_SESSION['error_msg'] = "Bitte den Nachnamen eingeben.";
+    echo $forward;
+    exit();
 }
 
 if (empty($prename)) {
-    $errors[] = "Bitte den Vornamen eingeben.";
+    $_SESSION['error_msg'] = "Bitte den Vornamen eingeben.";
+    echo $forward;
+    exit();
 }
 
 if (empty($password)) {
-    $errors[] = "Bitte das Passwort eingeben.";
+    $_SESSION['error_msg'] = "Bitte das Passwort eingeben.";
+    echo $forward;
+    exit();
 }
 
 if (empty($password_confirm)) {
-    $errors[] = "Bitte das Passwort wiederholt eingeben.";
+    $_SESSION['error_msg'] = "Bitte das Passwort wiederholt eingeben.";
+    echo $forward;
+    exit();
 }
 
 if ($password !== $password_confirm) {
-    $errors[] = "Die Passwörter stimmen nicht überein.";
+    $_SESSION['error_msg'] = "Die Passwörter stimmen nicht überein.";
+    echo $forward;
+    exit();
 }
 
 // CSRF-Token Überprüfung
 if ($_SESSION['login_token'] !== $login_token) {
-    $errors[] = "Ungültiger Token.";
-}
-
-// Wenn es Fehler gibt, zurück zur Registrierungsseite
-if (!empty($errors)) {
-    $_SESSION['errors'] = $errors;
-    header("Location: /registrieren/");
+    $_SESSION['error_msg'] = "Ungültiger Token.";
+    echo $forward;
     exit();
 }
 
 // Passwort verschlüsseln
 $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-$confirmation_code = bin2hex(random_bytes(32));
-
+$confirmation_code = $_SESSION['login_token'];
 // Benutzer in die Datenbank einfügen
-$stmt = $mysqli->prepare("INSERT INTO users (surname, prename, email, password, is_admin, confirmation_code) VALUES (?, ?, ?, ?, 0, ?)");
+$stmt = $mysqli->prepare("INSERT INTO $dbtable (surname, prename, email, password, is_admin, confirmation_code) VALUES (?, ?, ?, ?, 0, ?)");
 $stmt->bind_param("sssss", $surname, $prename, $email, $hashed_password, $confirmation_code);
-
 
 if ($stmt->execute()) {
     $confirm_url = "https://guerschi.family/registrieren/confirm.php?code=" . urlencode($confirmation_code);
@@ -82,15 +110,15 @@ if ($stmt->execute()) {
     $headers = "From: no-reply@guerschi.family\r\n";
 
     if (mail($to, $subject, $message, $headers)) {
-        $_SESSION['message'] = "Registrierung erfolgreich. Bitte überprüfen Sie Ihre E-Mail, um Ihre Adresse zu bestätigen.";
-        header("Location: /");
+        $_SESSION['message'] = "Registrierung erfolgreich. Bitte überprüfen Sie Ihre E-Mail, $email, um Ihre Adresse zu bestätigen.";
+        echo $forwardsuc;
     } else {
         $_SESSION['error_msg'] = "Fehler beim Versenden der Bestätigungs-E-Mail.";
-        header("Location: /registrieren/");
+        echo $forward;
     }
 } else {
     $_SESSION['error_msg'] = "Fehler bei der Registrierung: " . $stmt->error;
-    header("Location: /registrieren/");
+    echo $forward;
 }
 
 // Statement und Verbindung schließen

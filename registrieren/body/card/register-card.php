@@ -7,26 +7,25 @@
 
     <?php
     if(!isset($_SESSION['attack']) && !isset($_SESSION['user_id'])):
-      if(isset($_SESSION['error_msg'])):
+      if(isset($_SESSION['error_msg'])){
     ?>
     <div class="row my-1">
       <div class="col-auto text-center text-warning">
         <h6 class="card-subtitle">
-          <?php echo $_SESSION['error_msg'];?>
+          <?php echo $_SESSION['error_msg'] ?>
         </h6>
       </div>
     </div>
     <?php
-    unset($_SESSION['error_msg']);
-    endif;
+  }
      ?>
-    <form action="submit/register-submit.php" method="post">
+    <form action="/registrieren/submit/register-submit.php" method="post">
       <div class="row my-1">
         <div class="col-3">
           <label class="form-label" for="email">Email Adresse:</label>
         </div>
         <div class="col-8">
-          <input class="form-control" type="email" id="email" placeholder="deine@email-adresse.family">
+          <input class="form-control" type="email" id="email" placeholder="deine@email-adresse.family" name="email">
         </div>
       </div>
       <div class="row my-1">
@@ -34,7 +33,7 @@
           <label for="surname" class="form-label">Nachname:</label>
         </div>
         <div class="col-8">
-          <input class="form-control" id="surname" type="text" placeholder="Dein Nachname steht hier">
+          <input class="form-control" id="surname" type="text" placeholder="Dein Nachname steht hier" name="surname">
         </div>
       </div>
       <div class="row my-1">
@@ -42,7 +41,7 @@
           <label class="form-label" for="prename">Vorname</label>
         </div>
         <div class="col-8">
-          <input class="form-control" id="prename" type="text" placeholder="dein Vorname steht nun hier">
+          <input class="form-control" id="prename" type="text" placeholder="dein Vorname steht nun hier" name="prename">
         </div>
       </div>
       <div class="row my-1">
@@ -50,7 +49,7 @@
           <label class="form-label" for="password">P455W0RT</label>
         </div>
         <div class="col-8">
-          <input class="form-control" id="password" type="password" placeholder="password">
+          <input class="form-control" id="password" type="password" placeholder="password" name="password">
         </div>
       </div>
       <div class="row my-1">
@@ -58,7 +57,7 @@
           <label class="form-label" for="password_confirm">P455W0RT Bestätigung</label>
         </div>
         <div class="col-8">
-          <input class="form-control" id="password_confirm" type="password" placeholder="2x password">
+          <input class="form-control" id="password_confirm" type="password" placeholder="2x password" name="password_confirm">
         </div>
       </div>
       <input type="hidden" name="login_token" value="<?php echo $_SESSION['login_token']; ?>">

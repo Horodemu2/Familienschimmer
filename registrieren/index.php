@@ -1,6 +1,7 @@
 <?php
 // phpinfo();
 include '/kunden/homepages/33/d1016026951/htdocs/apps/config/config.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="de" prefix="og: http://ogp.me/ns#">
