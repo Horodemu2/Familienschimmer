@@ -1,21 +1,22 @@
 <?php
-session_start();
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include '/kunden/homepages/33/d1016026951/htdocs/apps/connection/login/login-env.php';
+include '/kunden/homepages/33/d1016026951/htdocs/apps/config/config.php';
+
 // Redirects
 $forward = '<script type="text/javascript">window.location.href = "/registrieren/";</script>';
 $forwardsuc = '<script type="text/javascript">window.location.href = "/";</script>';
 
-// DB Connection
-$dbhost = getenv('DB_HOST');
-$dbuser = getenv('DB_USERNAME');
-$dbpasswd = getenv('DB_PASSWORD');
-$dbname = getenv('DB_NAME');
-$dbtable = getenv('USER_TABLE');
+if (isset($_SESSION['message'])) {
+    unset($_SESSION['message']);
+} elseif (isset($_SESSION['error_msg'])) {
+    unset($_SESSION['error_msg']);
+} elseif (isset($_SESSION['errors'])) {
+    unset($_SESSION['errors']);
+};
 
 $mysqli = new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
 if ($mysqli->connect_error) {
@@ -26,7 +27,6 @@ if ($mysqli->connect_error) {
 }
 
 // Get POST data
-
 $email = isset($_POST['email']) ? $_POST['email'] : null;
 $surname = isset($_POST['surname']) ? $_POST['surname'] : null;
 $prename = isset($_POST['prename']) ? $_POST['prename'] : null;
@@ -34,20 +34,27 @@ $password = isset($_POST['password']) ? $_POST['password'] : null;
 $password_confirm = isset($_POST['password_confirm']) ? $_POST['password_confirm'] : null;
 $login_token = isset($_POST['login_token']) ? $_POST['login_token'] : null;
 
+$errors = null;
+
 // Check if email already exists
 if ($email) {
-    $stmt = $mysqli->prepare("SELECT nr FROM $dbtable WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $stmt->store_result();
-
-    if ($stmt->num_rows > 0) {
-        $_SESSION['error_msg'] = "Diese E-Mail-Adresse wird bereits verwendet.";
+    $stmt = $mysqli->prepare("SELECT id FROM $user_table WHERE email = ?");
+    if ($stmt) {
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+        if ($stmt->num_rows > 0) {
+            $_SESSION['error_msg'] = "Diese E-Mail-Adresse wird bereits verwendet.";
+            echo $forward;
+            $stmt->close();
+            exit();
+        }
         $stmt->close();
+    } else {
+        $_SESSION['error_msg'] = "Datenbankfehler: " . $mysqli->error;
         echo $forward;
         exit();
     }
-    $stmt->close();
 }
 
 // Validation
@@ -97,31 +104,37 @@ if ($_SESSION['login_token'] !== $login_token) {
 // Passwort verschlüsseln
 $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 $confirmation_code = $_SESSION['login_token'];
+
 // Benutzer in die Datenbank einfügen
-$stmt = $mysqli->prepare("INSERT INTO $dbtable (surname, prename, email, password, is_admin, confirmation_code) VALUES (?, ?, ?, ?, 0, ?)");
-$stmt->bind_param("sssss", $surname, $prename, $email, $hashed_password, $confirmation_code);
+$stmt = $mysqli->prepare("INSERT INTO $user_table (surname, prename, email, password, is_admin, confirmation_code) VALUES (?, ?, ?, ?, 0, ?)");
+if ($stmt) {
+    $stmt->bind_param("sssss", $surname, $prename, $email, $hashed_password, $confirmation_code);
 
-if ($stmt->execute()) {
-    $confirm_url = "https://guerschi.family/registrieren/confirm.php?code=" . urlencode($confirmation_code);
+    if ($stmt->execute()) {
+        $confirm_url = "https://guerschi.family/registrieren/confirm.php?code=" . urlencode($confirmation_code);
 
-    $to = $email;
-    $subject = "Bitte bestätigen Sie Ihre E-Mail-Adresse";
-    $message = "Hallo $prename,\n\nBitte klicken Sie auf den folgenden Link, um Ihre E-Mail-Adresse zu bestätigen:\n\n$confirm_url\n\nVielen Dank!";
-    $headers = "From: no-reply@guerschi.family\r\n";
+        $to = $email;
+        $subject = "Bitte bestätigen Sie Ihre E-Mail-Adresse";
+        $message = "Hallo $prename,\n\nBitte klicken Sie auf den folgenden Link, um Ihre E-Mail-Adresse zu bestätigen:\n\n$confirm_url\n\nVielen Dank!";
+        $headers = "From: no-reply@guerschi.family\r\n";
 
-    if (mail($to, $subject, $message, $headers)) {
-        $_SESSION['message'] = "Registrierung erfolgreich. Bitte überprüfen Sie Ihre E-Mail, $email, um Ihre Adresse zu bestätigen.";
-        echo $forwardsuc;
+        if (mail($to, $subject, $message, $headers)) {
+            $_SESSION['message'] = "Registrierung erfolgreich. Bitte überprüfen Sie Ihre E-Mail, um Ihre Adresse zu bestätigen.";
+            echo $forwardsuc;
+        } else {
+            $_SESSION['error_msg'] = "Fehler beim Versenden der Bestätigungs-E-Mail.";
+            echo $forward;
+        }
     } else {
-        $_SESSION['error_msg'] = "Fehler beim Versenden der Bestätigungs-E-Mail.";
+        $_SESSION['error_msg'] = "Fehler bei der Registrierung: " . $stmt->error;
         echo $forward;
     }
+
+    $stmt->close();
 } else {
-    $_SESSION['error_msg'] = "Fehler bei der Registrierung: " . $stmt->error;
+    $_SESSION['error_msg'] = "Datenbankfehler: " . $mysqli->error;
     echo $forward;
 }
 
-// Statement und Verbindung schließen
-$stmt->close();
 $mysqli->close();
 ?>

@@ -12,14 +12,16 @@
     <div class="row my-1">
       <div class="col-auto text-center text-warning">
         <h6 class="card-subtitle">
-          <?php echo $_SESSION['error_msg'] ?>
+          <?php echo $_SESSION['error_msg'];
+          echo $_SESSION['login_token'];
+           ?>
         </h6>
       </div>
     </div>
     <?php
   }
      ?>
-    <form action="/registrieren/submit/register-submit.php" method="post">
+    <form action="/apps/connection/register/register-submit.php" method="post">
       <div class="row my-1">
         <div class="col-3">
           <label class="form-label" for="email">Email Adresse:</label>

@@ -13,7 +13,8 @@ include '/kunden/homepages/33/d1016026951/htdocs/apps/connection/login/login-db.
 // include '/kunden/homepages/33/d1016026951/htdocs/apps/connection/login/login-dbconnect.php';
 // login sets
   // Generate a random token
-$login_token_set = bin2hex(random_bytes(64));
-$_SESSION['login_token'] = $login_token_set;
-if(!isset($_SESSION))
+  if(!isset($_SESSION['login_token'])){
+    $login_token_set = bin2hex(random_bytes(32));
+    $_SESSION['login_token'] = $login_token_set;
+  }
  ?>

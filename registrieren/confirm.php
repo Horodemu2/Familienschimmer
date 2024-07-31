@@ -2,9 +2,8 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-session_start();
 include '/kunden/homepages/33/d1016026951/htdocs/apps/config/config.php';
-
+include '/kunden/homepages/33/d1016026951/htdocs/apps/connection/register/register-confirm.php'; 
 ?>
 
 <!DOCTYPE html>
@@ -24,4 +23,3 @@ include '/kunden/homepages/33/d1016026951/htdocs/apps/config/config.php';
      ?>
    </footer>
   </html>
-  <?php include '/kunden/homepages/33/d1016026951/htdocs/apps/connection/register/register-confirm.php'; ?>

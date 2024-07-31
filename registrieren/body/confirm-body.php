@@ -4,6 +4,7 @@
       <div class="col text-center">
         <h1 class="">
           <?php
+          echo $confirmation_code;
           if (isset($_SESSION['message'])) {
             echo $_SESSION['message'];
           }elseif (isset($_SESSION['error_msg'])) {

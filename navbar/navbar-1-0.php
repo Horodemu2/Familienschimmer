@@ -14,7 +14,7 @@
           <a class="nav-link" href="#">login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">registrieren</a>
+          <a class="nav-link" href="/registrieren/" aria-disabled="true">registrieren</a>
         </li>
       </ul>
       <form class="d-flex" role="search">

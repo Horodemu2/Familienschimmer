@@ -15,8 +15,10 @@
       </div>
     </div>
   </div>
+  <?php if(isset($_SESSION['user_id'])) ?>
   <div class="container-fluid position-absolute top-50 start-0">
     <div class="row">
+
       <div id="login-card" class="offset-lg-8 col-lg-3">
 
         <?php  include '/kunden/homepages/33/d1016026951/htdocs/login/login-card.php'; ?>

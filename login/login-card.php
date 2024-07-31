@@ -1,5 +1,5 @@
 <?php
-if(!isset($_SESSION['attack']) && !isset($_SESSION['user_id'])):
+//if(!isset($_SESSION['attack']) && !isset($_SESSION['user_id'])):
 ?>
 
 <div class="card border-primary" id="logincard">
@@ -11,8 +11,9 @@ if(!isset($_SESSION['attack']) && !isset($_SESSION['user_id'])):
     <?php
     if(isset($_SESSION['message'])):
      ?>
-     <h6 class="card-subtitle mb-2 text-body-secondary"><?php echo isset($_SESSION['message']) ? $_SESSION['message'] : "";; ?></h6>
-      <form>
+     <h6 class="card-subtitle mb-2 text-body-secondary"><?php echo isset($_SESSION['message']) ? $_SESSION['message'] : "";
+     endif ?></h6>
+      <form action="/apps/connection/login/login-submit.php" method="post">
         <div class="row my-1">
           <div class="col-auto">
             <label class="form-label" for="email">
@@ -44,7 +45,7 @@ if(!isset($_SESSION['attack']) && !isset($_SESSION['user_id'])):
         </div>
       </form>
       <?php
-      elseif (isset($_SESSION['attack'])):
+    //  elseif (isset($_SESSION['attack'])):
        ?>
        <div class="my-2">
          <p class="h2 text-danger">
@@ -55,21 +56,10 @@ if(!isset($_SESSION['attack']) && !isset($_SESSION['user_id'])):
           <p class="text-center">
             <a class="btn btn-outline-danger" href="/" rel="zurück zur Startseite">Startseite<i class="fa fa-solid fa-home"></i></a></p>
         </div>
-        <?php
-        elseif(isset($_SESSION['user_id']) && isset($_SESSION['username'])):
-      ?>
-      <div class="my-2">
-        <p class="h2 text-success">
-          Sie sind bereits eingeloggt!
-        </p>
-        <p class="text-center">
-          <a href="/backend/" rel="hier geht es zum Log-In-Bereich" class="btn btn-outline-success">Zum Backend<i class="fa-solid fa-key"></i></a>
-        </p>
-      </div>
       <?php
-    endif;
+    // endif;
       ?>
     </div>
 
 </div>
-<?php endif; ?>
+<?php // endif; ?>

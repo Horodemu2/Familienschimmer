@@ -11,7 +11,6 @@ unset($_SESSION['error_message']);
 $errorMessage = NULL;
 
 if (isset($_GET['login']) && isset($_POST['login_token']) && $_POST['login_token'] == $_SESSION['login_token']) {
-    $tablename = getenv('EMAIL_TABLE');
 
     try {
         $pdo = new PDO("mysql:host=$host;dbname=$dbname", $dbuser, $dbpassword);
@@ -20,17 +19,17 @@ if (isset($_GET['login']) && isset($_POST['login_token']) && $_POST['login_token
         die("Connection failed: " . $e->getMessage());
     }
 
-    $username = $_POST['username'];
+    $email = $_POST['email'];
     $passwort = $_POST['passwort'];
     $_SESSION['login_csrf'] = $_POST['login_token'];
-    $statement = $pdo->prepare("SELECT * FROM users WHERE username = :username");
-    $result = $statement->execute(array('username' => $username));
+    $statement = $pdo->prepare("SELECT * FROM $user_table WHERE email = :email");
+    $result = $statement->execute(array('email' => $email));
     $user = $statement->fetch();
 
     // Überprüfung des Passworts
     if ($user !== false && password_verify($passwort, $user['passwort'])) {
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
+        $_SESSION['username'] = $user['prename'];
         header("Location: /backend/");
         exit();
     } else {
