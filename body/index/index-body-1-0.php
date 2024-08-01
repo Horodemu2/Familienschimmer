@@ -15,7 +15,7 @@
       </div>
     </div>
   </div>
-  <?php if(isset($_SESSION['user_id'])) ?>
+  <?php if(!isset($_SESSION['user_id'])): ?>
   <div class="container-fluid position-absolute top-50 start-0">
     <div class="row">
 
@@ -25,4 +25,15 @@
       </div>
     </div>
   </div>
+  <?php
+  elseif(isset($_SESSION['user_id'])):
+   ?>
+   <div class="container-fluid">
+     <div class="row">
+       <div class="offset-7 col-5">
+         <h2><?php echo $_SESSION['user_id'] . '&nbsp;' . $_SESSION['username'] ?>
+      </div>
+     </div>
+   </div>
+ <?php endif; ?>
 </main>
