@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Verzeichnis für das Profilbild
         $targetDir = $_SERVER['DOCUMENT_ROOT'] . '/pictures/profil/' . $userId . '/';
 
-        // Überprüfen, ob ein neues Bild hochgeladen wurde
+        // Überprüfen, ob ein neues Bild hochgeladen wurde  
         if (!empty($_FILES['profilpicture']['name'])) {
             $fileSize = $_FILES['profilpicture']['size'];
             $fileTmp = $_FILES['profilpicture']['tmp_name'];
